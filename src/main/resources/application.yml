@@ -4,10 +4,11 @@ server:
 spring:
   mvc:
     static-path-pattern: /static/**
-
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_study_202210_02
+    url: jdbc:mysql://localhost:3306/library
     username: root
     password: 1q2w3e4r
 
