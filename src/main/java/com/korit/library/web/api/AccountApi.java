@@ -2,18 +2,25 @@ package com.korit.library.web.api;
 
 
 import com.korit.library.aop.annotation.ValidAspect;
+import com.korit.library.security.PrincipalDetails;
+import com.korit.library.security.PrincipalDetailsService;
 import com.korit.library.service.AccountService;
 import com.korit.library.web.dto.CMRespDto;
 import com.korit.library.web.dto.UserDto;
 import io.swagger.annotations.*;
+import io.swagger.models.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+
+@Slf4j
 @Api(tags = {"Account Rest API Controller"})
 @RestController
 @RequestMapping("/api/account")
@@ -61,5 +68,22 @@ public class AccountApi {
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Success", accountService.getUser(userId)));
     }
+
+    @ApiOperation(value = "Get Principal", notes = "로그인된 사용자 정보 가져오기")
+    @ApiImplicitParam(name = "PrincipalDetails", required = false)
+
+    @GetMapping("principal")
+    public ResponseEntity<CMRespDto<? extends PrincipalDetails>> getPrincipalDetails(@ApiParam(hidden = true)@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        principalDetails.getAuthorities().forEach(role -> {
+            log.info("로그인된 사용자의 권한: {}", role.getAuthority());
+        });
+
+
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(),"Success", principalDetails));
+    }
+
 
 }
