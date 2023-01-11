@@ -26,21 +26,21 @@ public class UserDto {
     private String username;
 
     @NotBlank
-    @ApiModelProperty(name = "password", value = "사용자패스워드", example = "abc", required = true)
+    @ApiModelProperty(name = "password", value = "비밀번호", example = "abc", required = true)
     private String password;
 
     @NotBlank
-    @ApiModelProperty(name = "repassword", value = "사용자패스워드", example = "abc", required = true)
+    @ApiModelProperty(name = "repassword", value = "비밀번호 확인", example = "abc", required = true)
     private String repassword;
 
 
     @NotBlank
-    @ApiModelProperty(name = "name", value = "성명", example = "abc", required = true)
+    @ApiModelProperty(name = "name", value = "성명", example = "정영규", required = true)
     private String name;
 
     @NotBlank
     @Email
-    @ApiModelProperty(name = "email", value = "이메일", example = "abc", required = true)
+    @ApiModelProperty(name = "email", value = "이메일", example = "abc@gmail.com", required = true)
     private String email;
 
 

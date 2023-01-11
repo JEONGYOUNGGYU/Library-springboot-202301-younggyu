@@ -21,6 +21,8 @@ class RegisterApi {
             dataType: "json",
             success: response => {
                 console.log(response);
+                alert("회원가입 성공")
+                location.replace("/account/login");
             },
             error : error => {
                 console.log(error);

@@ -31,15 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic().disable(); // 기본 로그인 페이지를 제한걸어줌
         http.authorizeRequests()
-                .antMatchers("/mypage/**", "/security/**")                 // /mypage에 들어오는 요청에는
-                .authenticated()                                                      // 인증이 필요하다
-                .anyRequest()                                                        // 다른것들은
-                .permitAll()                                                         // 인증 필요없다
+                .antMatchers("/mypage/**", "/security/**")               // /mypage에 들어오는 요청에는
+                .authenticated()                                                    // 인증이 필요하다
+                .anyRequest()                                                       // 다른것들은
+                .permitAll()                                                        // 인증 필요없다
                 .and()
-                .formLogin()                                                       //우리가 로그인 할건데 form을 통한 로그인을 하겠다
+                .formLogin()                                                        //우리가 로그인 할건데 form을 통한 로그인을 하겠다
                 .loginPage("/account/login")                                        //로그인 페이지 get요청
                 .loginProcessingUrl("/account/login")                               // 로그인 인증 post요청
-                .defaultSuccessUrl("/index");
+                .failureForwardUrl("/account/login/error")                          // 로그인 실패시 여기로 가라
+                .defaultSuccessUrl("/index");                                       // 로그인 성공했을 때 여기로 가라
+//              .successForwardUrl("/mypage");                                      // 로그인 성공시 무조건 여기로 가라
+
+
 
     }
 
