@@ -25,7 +25,7 @@ public class AccountService {
         return userDto;
 
     }
-    public void duplicateUsername(String username) {
+     public void duplicateUsername(String username) {
         UserDto user = accountRepository.findUserByUsername(username);
         if (user != null) {
             Map<String, String> errorMap = new HashMap<>();

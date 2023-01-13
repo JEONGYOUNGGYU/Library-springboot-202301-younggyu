@@ -21,4 +21,5 @@ public class AccountController {
     public String register(){
         return "account/register";
     }
+
 }
