@@ -6,11 +6,16 @@ import com.korit.library.aop.annotation.ValidAspect;
 import com.korit.library.service.BookService;
 import com.korit.library.web.dto.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -65,7 +70,33 @@ public class BookApi {
     }
 
 
+    @ParamsAspect
+    @ValidAspect
+    @PatchMapping("/book/{bookCode}") // putmapping은 빈공간이라도 그냥 값이 들어가고(NULL로)  patchmapping은 테스트 도서명 그대로 유지한다.
+    public ResponseEntity<CMRespDto<?>> maintainUpdateBookByBookCode(@PathVariable String bookCode, @Valid @RequestBody BookReqDto bookReqDto, BindingResult bindingResult) {
+        bookService.maintainUpdateBookByBookCode(bookReqDto);
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", true));
+    }
 
+
+    @ParamsAspect
+    @PostMapping("/book/{bookCode}/images")
+    public ResponseEntity<CMRespDto<?>> registerBookImg(@PathVariable String bookCode, @RequestPart List<MultipartFile> files) {
+        bookService.registerBookImages(bookCode, files);
+        return ResponseEntity.ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully",true));
+    }
+
+    @ParamsAspect
+    @DeleteMapping("/book/{bookCode}")
+    public ResponseEntity<CMRespDto<?>> removeBook(@PathVariable String bookCode){
+        bookService.removeBook(bookCode);
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", true));
+    }
 
 
 }
