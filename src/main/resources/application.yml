@@ -17,4 +17,4 @@ mybatis:
     - /mappers/*.xml
 
 file:
-  path: C:/junil/younggyu/Library-springboot-202301-younggyu/upload
+  path: C:/junil/younggyu/Library-springboot-202301-younggyu/upload/
