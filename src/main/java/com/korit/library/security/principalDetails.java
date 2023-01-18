@@ -1,8 +1,8 @@
 package com.korit.library.security;
 
-import com.korit.library.web.dto.RoleDtlDto;
-import com.korit.library.web.dto.RoleMstDto;
-import com.korit.library.web.dto.UserDto;
+import com.korit.library.entity.RoleDtl;
+import com.korit.library.entity.RoleMst;
+import com.korit.library.entity.UserMst;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails {
 
     @Getter
-    private final UserDto user;
+    private final UserMst user;
     private Map<String, Object> response;
 
     // 권한을 리스트로 관리하는 부분
@@ -27,12 +27,12 @@ public class PrincipalDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-        List<RoleDtlDto> roleDtlDtoList = user.getRoleDtlDto();
+        List<RoleDtl> roleDtlList = user.getRoleDtl();
 
-        for(int i = 0; i < roleDtlDtoList.size(); i++) {
-            RoleDtlDto roleDtlDto = roleDtlDtoList.get(i);  // 0 = ROLE_USER, 1 = ROLE_ADMIN
-            RoleMstDto roleMstDto = roleDtlDto.getRoleMstDto();
-            String roleName = roleMstDto.getRoleName();
+        for(int i = 0; i < roleDtlList.size(); i++) {
+            RoleDtl roleDtl = roleDtlList.get(i);  // 0 = ROLE_USER, 1 = ROLE_ADMIN
+            RoleMst roleMst = roleDtl.getRoleMst();
+            String roleName = roleMst.getRoleName();
 
             GrantedAuthority role = new GrantedAuthority() {
                 @Override
@@ -45,8 +45,8 @@ public class PrincipalDetails implements UserDetails {
 //            System.out.println(roleName == role.getAuthority())
           } // ↑여기코드랑
             // ↓여기코드랑 같다
-        user.getRoleDtlDto().forEach(dtl -> {                               // list를 forEach
-            authorities.add(() -> dtl.getRoleMstDto().getRoleName());
+        user.getRoleDtl().forEach(dtl -> {                               // list를 forEach
+            authorities.add(() -> dtl.getRoleMst().getRoleName());
 
         });
         return authorities;
