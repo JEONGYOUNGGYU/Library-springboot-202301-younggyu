@@ -25,8 +25,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         UserMst user = accountRepository.findUserByUsername(username);
 
 
-
-
         if(user == null) {
             throw new UsernameNotFoundException("회원정보를 확인 할 수 없음.");
         }

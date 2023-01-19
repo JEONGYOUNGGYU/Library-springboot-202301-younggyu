@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Api(tags = {"도서 대여 API"})
@@ -35,7 +32,7 @@ public class RentalApi {
         -> 불가능함(대여 가능 횟수 0이면) -> 예외처리
     */
 
-
+    // 도서 한권 대출
     @PostMapping("/rental/{bookId}")
     public ResponseEntity<CMRespDto<?>> rental(@PathVariable int bookId,
                                                @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -46,4 +43,20 @@ public class RentalApi {
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", null));
     }
+    // 도서 반납
+    @PutMapping("/rental/{bookId}")
+    public ResponseEntity<CMRespDto<?>> rentalReturn(@PathVariable int bookId){
+
+        rentalService.returnBook(bookId);
+
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", null));
+    }
+
+    //좋아요 기능
+
+
+
+
 }

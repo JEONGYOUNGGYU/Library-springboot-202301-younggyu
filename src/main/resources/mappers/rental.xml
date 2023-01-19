@@ -15,6 +15,18 @@
         and rd.return_date is null;
     </select>
 
+<!--    // 빌려준 것-->
+    <select id="loanRental" resultType="Integer">
+        select
+            count(*)
+        from
+            rental_dtl
+        where
+            book_id =#{bookId}
+        and return_date is null
+    </select>
+
+
     <insert id="saveRentalMst"
             parameterType="com.korit.library.entity.RentalMst"
             useGeneratedKeys="true"
@@ -32,6 +44,15 @@
             </foreach>
     </insert>
 
+
+    <update id="updateReturnDate">
+        update rental_dtl
+        set
+            return_date = now()
+        where
+            book_id = #{bookId}
+        and return_date is null
+    </update>
 </mapper>
 
 <!--if(#{author} = '', null, #{author})구문 해석 : if가 참이면 null, 거짓이면 #{author}-->
