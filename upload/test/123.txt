@@ -1,0 +1,6 @@
+administration -> data export -> library 체크 -> objects to export 3개 다 체크 -> export to self-contained File 체크 
+
+All selected database 2개 다 체크
+
+문서 열기 
+sql 
