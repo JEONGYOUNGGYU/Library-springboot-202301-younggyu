@@ -31,6 +31,11 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    // 20개씩 목록 보이게
+    public int getBookTotalCount(SearchNumberListReqDto searchNumberListReqDto){
+        return bookRepository.getBookTotalCount(searchNumberListReqDto);
+    }
+
     public List<BookMst> searchBook(SearchReqDto searchReqDto){
         searchReqDto.setIndex();
         return bookRepository.searchBook(searchReqDto);

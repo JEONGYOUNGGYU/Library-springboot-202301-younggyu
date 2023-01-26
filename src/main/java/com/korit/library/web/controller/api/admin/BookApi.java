@@ -33,14 +33,41 @@ public class BookApi {
     @ValidAspect
     @GetMapping("/books")
     public ResponseEntity<CMRespDto<List<BookMst>>> searchBook(@Valid SearchReqDto searchReqDto, BindingResult bindingResult){
-
-
         return ResponseEntity
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", bookService.searchBook(searchReqDto)));
     }
 
+    @GetMapping("/books/totalcount")
+    public ResponseEntity<CMRespDto<?>> getBookTotalCount(SearchNumberListReqDto searchNumberListReqDto){
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", bookService.getBookTotalCount(searchNumberListReqDto)));
+    }
+
+
+
     @GetMapping("/categories")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public ResponseEntity<CMRespDto<List<CategoryView>>> getCategories(){
         return ResponseEntity
                 .ok()
