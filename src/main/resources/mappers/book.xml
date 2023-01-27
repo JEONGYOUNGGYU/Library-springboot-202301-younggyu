@@ -141,6 +141,18 @@
             book_code = #{bookCode}
     </delete>
 
+    <delete id="deleteBooks" parameterType="list">
+        delete
+        from
+            book_mst    <!-- book_mst 에서 !-->
+        where
+            book_id in   <!-- book_id가 2,5,11,14 번인 애들을 !-->
+            <foreach collection="list" item="bookId" open="(" close=")" separator=",">
+                #{bookId}
+            </foreach>
+    </delete>
+
+
     <insert id="registerBookImages" parameterType="list">
         insert into book_image
         values

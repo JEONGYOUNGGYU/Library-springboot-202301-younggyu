@@ -48,26 +48,6 @@ public class BookApi {
 
 
     @GetMapping("/categories")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ResponseEntity<CMRespDto<List<CategoryView>>> getCategories(){
         return ResponseEntity
                 .ok()
@@ -120,6 +100,15 @@ public class BookApi {
     @DeleteMapping("/book/{bookCode}")
     public ResponseEntity<CMRespDto<?>> removeBook(@PathVariable String bookCode){
         bookService.removeBook(bookCode);
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", true));
+    }
+
+    @ParamsAspect
+    @DeleteMapping("/books")
+    public ResponseEntity<CMRespDto<?>> removeBooks(@RequestBody DeleteBooksReqDto deleteBooksReqDto){
+        bookService.removeBooks(deleteBooksReqDto);
         return ResponseEntity
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", true));
