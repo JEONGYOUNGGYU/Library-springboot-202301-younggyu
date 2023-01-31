@@ -78,9 +78,17 @@
     height: 100%;
 
 }
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    
 
-.img-register-button {
     width: 100%;
+}
+
+
+.img-register-button, .img-cancel-button{
+    width: 48%;
     height: 40px;
 
     font-weight: 600;
