@@ -105,6 +105,7 @@ class BookModificationApi {
 
     removeImg() {
         let successFlag = false;
+
         $.ajax({
             async: false,
             type: "delete",
@@ -117,6 +118,8 @@ class BookModificationApi {
                 console.log(error);
             }
         });
+        
+        return successFlag;
     }
 
     registerImg() {

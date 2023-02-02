@@ -31,6 +31,17 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+
+    public Map<String, Object> getBookAndImage(String bookCode){
+        Map<String, Object> result = new HashMap<>();
+        result.put("bookMst", bookRepository.findBookByBookCode(bookCode));
+        result.put("bookImage", bookRepository.findBookImageByBookCode(bookCode));
+
+        return result;
+    }
+
+
+
     // 20개씩 목록 보이게
     public int getBookTotalCount(SearchNumberListReqDto searchNumberListReqDto){
         return bookRepository.getBookTotalCount(searchNumberListReqDto);
