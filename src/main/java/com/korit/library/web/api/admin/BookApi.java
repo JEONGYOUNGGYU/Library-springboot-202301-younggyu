@@ -1,4 +1,4 @@
-package com.korit.library.web.controller.api.admin;
+package com.korit.library.web.api.admin;
 
 
 import com.korit.library.aop.annotation.ParamsAspect;

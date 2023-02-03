@@ -1,4 +1,4 @@
-package com.korit.library.web.controller.api;
+package com.korit.library.web.api;
 
 
 import com.korit.library.aop.annotation.ValidAspect;
