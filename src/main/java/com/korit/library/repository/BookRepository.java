@@ -3,6 +3,7 @@ package com.korit.library.repository;
 import com.korit.library.entity.BookImage;
 import com.korit.library.entity.BookMst;
 import com.korit.library.entity.CategoryView;
+import com.korit.library.entity.SearchBook;
 import com.korit.library.web.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
