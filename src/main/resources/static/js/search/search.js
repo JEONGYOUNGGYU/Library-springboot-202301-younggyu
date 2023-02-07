@@ -1,18 +1,21 @@
-
 window.onload = () => {
+    HeaderService.getInstance().loadHeader();
     // console.log(SearchApi.getInstance().getTotalCount());
     // console.log(SearchApi.getInstance().searchBook());
     SearchService.getInstance().clearBookList();
     SearchService.getInstance().loadSearchBooks();
     SearchService.getInstance().loadCategories();
+    SearchService.getInstance().setMaxPage();
 
 
 
     ComponentEvent.getInstance().addClickEventCategoryCheckboxs();
-
+    ComponentEvent.getInstance().addScrollEventPaging();
+    ComponentEvent.getInstance().addClickEventSearchButton();
 
 }
 
+let maxPage = 0;
 
 // 검색을 할 때 사용할 Obj
 const searchObj = {
@@ -128,7 +131,12 @@ class SearchService {
         contentFlex.innerHTML = "";
     }
 
+    setMaxPage() {
+        const totalCount = SearchApi.getInstance().getTotalCount();
+        maxPage = totalCount % 10 == 0 ? totalCount / 10 : Math.floor(totalCount / 10) + 1;
+    }
 
+    // 책 불러오기
     loadSearchBooks() {
         const responseData = SearchApi.getInstance().searchBook();
         const contentFlex = document.querySelector(".content-flex");
@@ -144,8 +152,8 @@ class SearchService {
                             </div>
 
                             <div class="book-info">
-                                <div class="book-code">${data.bookCode}</div>
-                                <h3 class="book-name">${data.bookName}</h3>
+                            <h3 class="book-code">${data.bookName}</h3>
+                            <div class="book-name">${data.bookCode}</div>
                                 <div class="info-text book-author"><b>저자: </b>${data.author}</div>
                                 <div class="info-text book-publisher"><b>출판사: </b>${data.publisher}</div>
                                 <div class="info-text book-publicationdate"><b>출판일: </b>${data.publicationDate}</div>
@@ -182,11 +190,53 @@ class ComponentEvent {
                     const index = searchObj.categories.indexOf(checkbox.value);  // indexOf = 해당 값의 위치를 찾아내주는 역할
                     searchObj.categories.splice(index, 1);                       // splice(index, 1) 0번 인덱스부터 1개 지워라
                 }
-                console.log(searchObj.categories);
+                // console.log(searchObj.categories);
+                document.querySelector(".search-button").click();
             }
         });
         
     }
+
+    // 마우스 스크롤 내릴 때
+    addScrollEventPaging() {
+        const html = document.querySelector("html");
+        const body = document.querySelector("body");
+
+        body.onscroll = () => {
+            const scrollPosition = body.offsetHeight - html.clientHeight - html.scrollTop;
+
+            if(scrollPosition < 250 && searchObj.page < maxPage) {
+                searchObj.page++;
+                SearchService.getInstance().loadSearchBooks();
+
+            }
+
+            // console.log("HTML CLIENT: " + html.clientHeight);
+            // console.log("body offset: " + body.offsetHeight);
+            // console.log("client - offset - scrollTop " + (body.offsetHeight - html.clientHeight - html.scrollTop));
+            // console.log("html scrollTop: " + html.scrollTop);
+        }
+    }
     
+    // 검색버튼기능
+    addClickEventSearchButton() {
+        const searchButton = document.querySelector('.search-button');
+        const searchInput = document.querySelector(".search-input");
+        
+        searchButton.onclick = () => {
+            searchObj.searchValue = searchInput.value;
+            searchObj.page = 1;
+            window.scrollTo(0, 0);  // 페이지 제일 위로 올라감
+            SearchService.getInstance().clearBookList();
+            SearchService.getInstance().setMaxPage();
+            SearchService.getInstance().loadSearchBooks();
+        }
+    
+        searchInput.onkeyup = () => {
+            if(window.event.keyCode == 13) {
+                searchButton.click();
+            }
+        }
+    }
 }
 
