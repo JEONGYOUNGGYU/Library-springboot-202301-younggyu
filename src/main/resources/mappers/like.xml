@@ -14,7 +14,6 @@
         from
             book_like
         where
-
             book_id = #{bookId}
         and user_id = #{userId}
     </delete>
@@ -29,7 +28,14 @@
             book_id = #{bookId}
         and user_id = #{userId}
     </select>
-
+    <select id="getLikeCount" resultType="Integer">
+        select
+            count(*)
+        from
+            book_like
+        where
+            book_id = #{bookId}
+    </select>
 </mapper>
 
 <!--if(#{author} = '', null, #{author})구문 해석 : if가 참이면 null, 거짓이면 #{author}-->

@@ -10,6 +10,7 @@ public interface LikeRepository {
     public int deleteLike(BookLike bookLike);
     public int getLikeStatus(BookLike bookLike);
 
+    public int getLikeCount(int bookId);
 
 }
 
