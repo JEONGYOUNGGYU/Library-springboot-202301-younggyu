@@ -24,7 +24,7 @@ public class LikeService {
                 .build();
 //      좋아요가 이미 눌러진 상태일 때 좋아요를 취소해 주세요 라는 에러발생 ( > 1 일떄)
 //      좋아요가 눌러지지 않은 상태일 때 좋아요를 눌러주세요 라는 에러발생 ( == 0 일때)
-        if(likeRepository.getLikeStatus(bookLike) == 0){
+        if(likeRepository.getLikeStatus(bookLike) != 0){
             Map<String, String> errorMap = new HashMap<>();
             errorMap.put("likeError", "좋아요를 취소해주세요.");
             throw new CustomLikeException(errorMap);

@@ -41,7 +41,7 @@ public class RentalApi {
 
         return ResponseEntity
                 .ok()
-                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", null));
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", true));
     }
     // 도서 반납
     @PutMapping("/rental/{bookId}")
@@ -51,12 +51,9 @@ public class RentalApi {
 
         return ResponseEntity
                 .ok()
-                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", null));
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", true));
     }
 
     //좋아요 기능
-
-
-
 
 }
