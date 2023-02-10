@@ -36,7 +36,7 @@ class BookRegisterApi {
         $.ajax({
             async: false,
             type: "post",
-            url: "http://127.0.0.1:8000/api/admin/book",
+            url: "http://localhost:8000/api/admin/book",
             contentType: "application/json",
             data: JSON.stringify(bookObj),
             dataType: "json",
@@ -56,7 +56,7 @@ class BookRegisterApi {
         $.ajax({
             async: false,
             type: "post",   // multipart는 무조건 post
-            url: `http://127.0.0.1:8000/api/admin/book/${bookObj.bookCode}/images`,
+            url: `http://localhost:8000/api/admin/book/${bookObj.bookCode}/images`,
             encType: "multipart/form-data", // 요청을 form-data로 통째로 날릴 때 사용 multipart/form-data 는 encType,contentType,processData 이 세가지 필수
             contentType: false,
             processData: false,
@@ -78,7 +78,7 @@ class BookRegisterApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/admin/categories",
+            url: "http://localhost:8000/api/admin/categories",
             dataType: "json",
             success: response => {
                 responseData = response.data;

@@ -33,15 +33,18 @@ public class UserMst {
     private String repassword;
 
 
-    @NotBlank
-    @ApiModelProperty(name = "name", value = "성명", example = "정영규", required = true)
-    private String name;
+
 
     @NotBlank
     @Email
     @ApiModelProperty(name = "email", value = "이메일", example = "abc@gmail.com", required = true)
     private String email;
 
+    @ApiModelProperty(name = "name", value = "이름", example = "abc", required = true)
+    private String name;
+
+    @ApiModelProperty(name = "provider", value = "OAuth데이터출처", example = "Google", required = false)
+    private String provider;
 
     @ApiModelProperty(hidden = true)
     private LocalDateTime createDate;

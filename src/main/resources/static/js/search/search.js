@@ -44,7 +44,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/admin/categories",
+            url: "http://localhost:8000/api/admin/categories",
             dataType: "json",
             success: response => { //CMResp의 데이터가 response.data로 들어온다
                 console.log(response);
@@ -64,7 +64,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/search/totalcount",
+            url: "http://localhost:8000/api/search/totalcount",
             data: searchObj,
             dataType: "json",
             success: response => {
@@ -84,7 +84,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/search",
+            url: "http://localhost:8000/api/search",
             data: searchObj,
             dataType: "json",
             success: response => {
@@ -105,7 +105,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "post",
-            url: `http://127.0.0.1:8000/api/book/${bookId}/like`,
+            url: `http://localhost:8000/api/book/${bookId}/like`,
             dataType: "json",
             success: response => {
                 likeCount = response.data;
@@ -125,7 +125,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "delete",
-            url: `http://127.0.0.1:8000/api/book/${bookId}/like`,
+            url: `http://localhost:8000/api/book/${bookId}/like`,
             dataType: "json",
             success: response => {
                 likeCount = response.data;
@@ -145,7 +145,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "post",
-            url: `http://127.0.0.1:8000/api/rental/${bookId}`,
+            url: `http://localhost:8000/api/rental/${bookId}`,
             dataType: "json",
             success: response => {
                 responseData = response.data;
@@ -166,7 +166,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "put",
-            url: `http://127.0.0.1:8000/api/rental/${bookId}`,
+            url: `http://localhost:8000/api/rental/${bookId}`,
             dataType: "json",
             success: response => {
                 responseData = response.data;
@@ -253,7 +253,7 @@ class SearchService {
                 <div class="info-container">
                             <div class="book-desc">
                                 <div class="img-container">
-                                    <img src="http://127.0.0.1:8000/image/book/${data.saveName != null ? data.saveName : "no_img.png"}" class="book-img">
+                                    <img src="http://localhost:8000/image/book/${data.saveName != null ? data.saveName : "no_img.png"}" class="book-img">
                                 </div>
                                 <div class="like-info"><i class="fa-regular fa-thumbs-up"><span class="like-count">${data.likeCount != null ? data.likeCount : 0}</span></i></div>
                             </div>
@@ -288,7 +288,7 @@ class SearchService {
                 
             
                 bookButtons[bookButtonsLength + index].innerHTML += `
-                    <button type="button" class="rental-buttons like-button" disabled>추천</button>
+                    <button type="button" class="like-button" disabled>추천</button>
                 `;
         }
         else {
@@ -406,23 +406,20 @@ class ComponentEvent {
             button.onclick = () => {
                 if(button.classList.contains("like-button")) {
                     const likeCount = SearchApi.getInstance().setLike(bookIds[index].value);
-                    const flag = SearchApi.getInstance().rentalBook(bookIds[index].value);
-
-                    if(flag){    // -1이면 실패했다고 보면 된다
-                    button.classList.remove("like-button");
-                    button.classList.add("dislike-button");
-                    button.textContent = "추천취소";
+                    if(likeCount != -1){
+                        button.classList.remove("like-button");
+                        button.classList.add("dislike-button");
+                        button.textContent = "추천취소";
                     }
                 }
                 else {
                     const likeCount = SearchApi.getInstance().setDisLike(bookIds[index].value);
-
-                    const flag = SearchApi.getInstance().returnBook(bookIds[index].value);
-                    if(flag) {   // -1이면 실패했다고 보면 된다
-                    button.classList.remove("dislike-button");
-                    button.classList.add("like-button");
-                    button.textContent = "추천";
+                    if(likeCount != -1){
+                        button.classList.remove("dislike-button");
+                        button.classList.add("like-button");
+                        button.textContent = "추천";
                     }
+                    
                 }
 
             }
@@ -437,17 +434,22 @@ class ComponentEvent {
         rentalButtons.forEach((button, index) => {
             button.onclick = () => {
                 if(button.classList.contains("rental-button") && button.disabled == false) {    // disabled가 false고 rental-button을 가지고 있는 것 = 대여중
+                    const flag = SearchApi.getInstance().rentalBook(bookIds[index].value);
 
-                    button.classList.remove(".rental-button");
-                    button.classList.add(".return-button");
-                    button.textContent = "반납하기";
+                    if(flag){    // -1이면 실패했다고 보면 된다
+                        button.classList.remove("rental-button");
+                        button.classList.add("return-button");
+                        button.textContent = "반납하기";
+                    }
                     
                 }
                 else if(button.classList.contains("return-button")){
-
-                    button.classList.remove(".rental-button");
-                    button.classList.add(".return-button");
-                    button.textContent = "대여하기";
+                    const flag = SearchApi.getInstance().returnBook(bookIds[index].value);
+                    if(flag) {   // -1이면 실패했다고 보면 된다
+                        button.classList.remove("return-button");
+                        button.classList.add("rental-button");
+                        button.textContent = "대여하기";
+                    }
                 }
             }
         })

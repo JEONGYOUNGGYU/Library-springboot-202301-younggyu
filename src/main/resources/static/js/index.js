@@ -18,7 +18,7 @@ class ComponentEvent {
         const searchInput = document.querySelector(".search-input");
 
         searchButton.onclick = () => {
-            location.href = `http://127.0.0.1:8000/search?searchValue=${searchInput.value}`;
+            location.href = `http://localhost:8000/search?searchValue=${searchInput.value}`;
         }
         
         searchInput.onkeyup = () => {
@@ -28,4 +28,6 @@ class ComponentEvent {
         }
    
     }
+
+
 }

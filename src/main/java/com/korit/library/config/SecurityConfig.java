@@ -1,6 +1,9 @@
 package com.korit.library.config;
 
 
+import com.korit.library.security.PrincipalOAuth2DetailsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -40,11 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/account/login")                                        //로그인 페이지 get요청
                 .loginProcessingUrl("/account/login")                               // 로그인 인증 post요청
                 .failureForwardUrl("/account/login/error")                          // 로그인 실패시 여기로 가라
-                .defaultSuccessUrl("/index");                                       // 로그인 성공했을 때 여기로 가라
 //              .successForwardUrl("/mypage");                                      // 로그인 성공시 무조건 여기로 가라
-
-
-
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(principalOAuth2DetailsService) // userService() = PrincipalOAuth2DetailsService 이다
+                .and()
+                .defaultSuccessUrl("/index");                                       // 로그인 성공했을 때 여기로 가라
     }
 
 

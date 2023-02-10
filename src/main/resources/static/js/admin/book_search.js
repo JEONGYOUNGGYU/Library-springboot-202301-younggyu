@@ -32,7 +32,7 @@ class BookSearchApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/admin/books",
+            url: "http://localhost:8000/api/admin/books",
             data: searchObj,
             dataType: "json",
             success: response => { //CMResp의 데이터가 response.data로 들어온다
@@ -54,7 +54,7 @@ class BookSearchApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/admin/books/totalcount",
+            url: "http://localhost:8000/api/admin/books/totalcount",
             data: {
                 "category" : searchObj.category,
                 "searchValue" : searchObj.searchValue
@@ -79,7 +79,7 @@ class BookSearchApi {
         $.ajax({
             async: false,
             type: "get",
-            url: "http://127.0.0.1:8000/api/admin/categories",
+            url: "http://localhost:8000/api/admin/categories",
             dataType: "json",
             success: response => { //CMResp의 데이터가 response.data로 들어온다
                 console.log(response);
@@ -99,7 +99,7 @@ class BookSearchApi {
         $.ajax({
             async: false,
             type: "delete",
-            url: "http://127.0.0.1:8000/api/admin/books",
+            url: "http://localhost:8000/api/admin/books",
             contentType: "application/json",
             data: JSON.stringify(   // json으로 바꿈 userIds: deleteArray를
                 {
